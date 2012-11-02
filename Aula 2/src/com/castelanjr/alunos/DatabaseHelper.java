@@ -54,10 +54,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		
 		SQLiteDatabase db = this.getWritableDatabase();
 		db.insert(TABELA_ALUNOS, null, values);
+		db.close();
+	}
+	
+	public void alterar(Aluno aluno) {
+		ContentValues values = new ContentValues();
+		values.put(ID, aluno.getId());
+		values.put(NOME, aluno.getNome());
+		values.put(IDADE, aluno.getIdade());
+		values.put(SEXO, String.valueOf(aluno.getSexo()));
+		
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.update(TABELA_ALUNOS, values, ID + "=" + aluno.getId(), null);
+		db.close();
+	}
+	
+	public void excluir(Aluno aluno) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.delete(TABELA_ALUNOS, ID + "=" + aluno.getId(), null);
+		db.close();
 	}
 	
 	public List<Aluno> buscarAlunos() {
-		Cursor c = this.getReadableDatabase().query(TABELA_ALUNOS, null, null, null, null, null, NOME);
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor c = db.query(TABELA_ALUNOS, null, null, null, null, null, NOME);
 		
 		List<Aluno> alunos = new ArrayList<Aluno>();
 		while (c.moveToNext()) {
@@ -69,7 +89,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			alunos.add(aluno);
 		}
 		c.close();
+		db.close();
 		return alunos;
+	}
+	
+	public Aluno buscarAlunoPeloId(int id) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor c = db.query(TABELA_ALUNOS, null, ID + "=" + id, null, null, null, NOME);
+		Aluno aluno = null;
+		if (c.moveToFirst()) {
+			aluno = new Aluno();
+			aluno.setId(c.getInt(c.getColumnIndex(ID)));
+			aluno.setNome(c.getString(c.getColumnIndex(NOME)));
+			aluno.setIdade(c.getInt(c.getColumnIndex(IDADE)));
+			aluno.setSexo(c.getString(c.getColumnIndex(SEXO)).charAt(0));
+		}
+		c.close();
+		db.close();
+		return aluno;
 	}
 
 }
