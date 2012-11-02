@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_adicionar"
+        android:title="@string/menu_salvar"
+        android:icon="@android:drawable/ic_menu_save"
+        android:showAsAction="ifRoom|withText"/>
+    
+    <item android:id="@+id/menu_descartar"
+        android:title="@string/menu_descartar"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:showAsAction="ifRoom|withText"/>
+</menu>
