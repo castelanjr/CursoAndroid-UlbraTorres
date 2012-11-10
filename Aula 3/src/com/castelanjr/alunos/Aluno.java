@@ -7,6 +7,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
+
 public class Aluno {
 	private int id;
 	private String nome;
@@ -50,8 +52,11 @@ public class Aluno {
 		this.id = id;
 	}
 	
-	public static List<Aluno> buscarAlunoDoJSON(String response) throws JSONException {
+	public static List<Aluno> buscarAlunoDoJSON(String response, Context context) throws JSONException {
 	    List<Aluno> alunos = new ArrayList<Aluno>();
+	    
+	    DatabaseHelper databaseHelper = new DatabaseHelper(context);
+	    databaseHelper.excluirTodos();
 	    
 	    JSONArray jsonArray = new JSONArray(response);
 	    for (int i = 0; i < jsonArray.length(); i++) {
@@ -62,6 +67,9 @@ public class Aluno {
 	        aluno.setIdade(jsonObject.getInt("idade"));
 	        aluno.setSexo(jsonObject.getString("sexo").charAt(0));
 	        
+	        // Adiciona o aluno no banco de dados
+	        databaseHelper.inserir(aluno);
+	        
 	        alunos.add(aluno);
 	    }
 	    return alunos;
@@ -70,7 +78,7 @@ public class Aluno {
 	public JSONObject transformarEmJSON() {
 	    JSONObject jsonObject = new JSONObject();
 	    try {
-        	    jsonObject.put("id", this.getId());
+        	    //jsonObject.put("id", this.getId());
         	    jsonObject.put("nome", this.getNome());
         	    jsonObject.put("idade", this.getIdade());
         	    jsonObject.put("sexo", String.valueOf(this.getSexo()));

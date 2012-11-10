@@ -52,6 +52,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	    SQLiteDatabase db = this.getWritableDatabase();
 	    try {
         		ContentValues values = new ContentValues();
+        		values.put(ID, aluno.getId());
         		values.put(NOME, aluno.getNome());
         		values.put(IDADE, aluno.getIdade());
         		values.put(SEXO, String.valueOf(aluno.getSexo()));
@@ -84,6 +85,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getWritableDatabase();
 		db.delete(TABELA_ALUNOS, ID + "=" + aluno.getId(), null);
 		db.close();
+	}
+	
+	public void excluirTodos() {
+	    SQLiteDatabase db = this.getWritableDatabase();
+	    db.delete(TABELA_ALUNOS, null, null);
+	    db.close();
 	}
 	
 	public List<Aluno> buscarAlunos() {

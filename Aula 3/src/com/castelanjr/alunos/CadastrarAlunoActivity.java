@@ -96,7 +96,9 @@ public class CadastrarAlunoActivity extends Activity {
 
             if (modo == MODO_NOVO_ALUNO) {
                 
-                InserirAlunoTask task = new InserirAlunoTask(alunoSendoEditado, databaseHelper, this);
+                //InserirAlunoTask task = new InserirAlunoTask(alunoSendoEditado, databaseHelper, this);
+                //task.execute();
+                InserirAlunoWSTask task = new InserirAlunoWSTask(alunoSendoEditado, this);
                 task.execute();
                 
             } else {

@@ -8,8 +8,11 @@ import com.github.kevinsawicki.http.HttpRequest;
 import com.github.kevinsawicki.http.HttpRequest.HttpRequestException;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -35,6 +38,17 @@ public class BuscarAlunosWSTask extends AsyncTask<Void, Void, Boolean> {
                     android.R.layout.simple_list_item_1, alunos);
             listviewAlunos.setAdapter(adapter);
             listviewAlunos.setVisibility(View.VISIBLE);
+            
+            listviewAlunos.setOnItemClickListener(new OnItemClickListener() {
+
+                @Override
+                public void onItemClick(AdapterView<?> container, View view, int position, long id) {
+                    Intent intent = new Intent(context, CadastrarAlunoActivity.class);
+                    Aluno aluno = alunos.get(position);
+                    intent.putExtra(CadastrarAlunoActivity.ID_DO_ALUNO, aluno.getId());
+                    context.startActivity(intent);
+                }
+            });
         } else {
             Toast.makeText(context, "Ocorreu um erro ao buscar os alunos", Toast.LENGTH_LONG).show();
         }
@@ -49,13 +63,19 @@ public class BuscarAlunosWSTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected Boolean doInBackground(Void... params) {
         try {
-            String response = HttpRequest.get("http://androidturmas.herokuapp.com/api/alunos").body();
-            alunos = Aluno.buscarAlunoDoJSON(response);
+            String response = HttpRequest.get("http://androidturmas.herokuapp.com/api/alunos")
+                    .connectTimeout(1).body();
+            alunos = Aluno.buscarAlunoDoJSON(response, context);
             return true;
             
         } catch (HttpRequestException e) {
-            e.printStackTrace();
-            return false;
+            DatabaseHelper databaseHelper = new DatabaseHelper(context);
+            alunos = databaseHelper.buscarAlunos();
+            if (alunos.size() > 0) {
+                return true;
+            } else {
+                return false;
+            }
         } catch (JSONException e) {
             e.printStackTrace();
             return false;
