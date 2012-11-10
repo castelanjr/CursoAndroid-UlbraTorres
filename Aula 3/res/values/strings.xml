@@ -1,0 +1,19 @@
+<resources>
+
+    <string name="app_name">Alunos</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_cadastrar_aluno">Cadastrar Aluno</string>
+    <string name="hint_nome">Nome</string>
+    <string name="hint_idade">Idade</string>
+    <string name="text_sexo">Sexo</string>
+    <string name="radio_masculino">Masculino</string>
+    <string name="radio_feminino">Feminino</string>
+    <string name="button_salvar">Salvar</string>
+    <string name="button_descartar">Descartar</string>
+    <string name="menu_salvar">Salvar</string>
+    <string name="menu_descartar">Descartar</string>
+    <string name="titulo_adicionar">Adicionar</string>
+    
+
+</resources>
