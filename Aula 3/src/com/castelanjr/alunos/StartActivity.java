@@ -42,8 +42,11 @@ public class StartActivity extends Activity {
 //				startActivity(intent);
 //			}
 //		});
-		DatabaseHelper databaseHelper = new DatabaseHelper(this);
-		Task task = new Task(databaseHelper, lista, this);
+//		DatabaseHelper databaseHelper = new DatabaseHelper(this);
+//		Task task = new Task(databaseHelper, lista, this);
+//		task.execute();
+		
+		BuscarAlunosWSTask task = new BuscarAlunosWSTask(progressbar, lista, this);
 		task.execute();
 	}
 
